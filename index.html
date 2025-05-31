@@ -48,7 +48,6 @@
             <div class="container">
                 <h2>Bem-vindo à URBAN FIT</h2>
                 <p>Sua loja de produtos fitness com as melhores marcas e preços</p>
-                <a href="produtos.html" class="btn">Ver Produtos</a>
             </div>
         </section>
 
@@ -62,36 +61,17 @@
         </section>
     </main>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>URBAN FIT</h3>
-                    <p>Sua loja de produtos fitness</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Links Úteis</h3>
-                    <ul>
-                        <li><a href="sobre.html">Sobre Nós</a></li>
-                        <li><a href="contato.html">Contato</a></li>
-                        <li><a href="#">Política de Privacidade</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Contato</h3>
-                    <p>Endereço: Rua das Araucárias, 456, Centro, Curitiba - PR</p>
-                    <p>Email: vinisantosvsr80@gmail.com</p>
-                    <p>Tel: (42) 99122-4783</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 URBAN FIT. Todos os direitos reservados.</p>
-            </div>
-        </div>
-    </footer>
+    <div id="footer-placeholder"></div>
+    <script>
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      });
+    </script>
 
     <!-- JavaScript Files -->
-    <script src="assets/js/main.js"></script>
+    <script type="module" src="assets/js/main.js"></script>
     <script src="assets/js/interacoes.js"></script>
 </body>
 </html> 

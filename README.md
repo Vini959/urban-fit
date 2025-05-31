@@ -1,83 +1,88 @@
-# URBAN FIT - Loja Virtual de Produtos Fitness
+# URBAN FIT - Loja de Produtos Fitness
 
-Site responsivo para uma loja virtual de produtos fitness, desenvolvido com HTML5, CSS3 e JavaScript puro.
+URBAN FIT é uma loja virtual especializada em produtos fitness, oferecendo uma ampla variedade de itens para treino e bem-estar.
 
-## Características
+## Funcionalidades
 
-- Design responsivo para desktop, tablet e mobile
-- Carrinho de compras funcional com localStorage
-- Formulário de contato com validação
-- Menu hamburguer para dispositivos móveis
-- Animações suaves e interações
-- SEO otimizado
-- Código organizado e comentado
-
-## Estrutura do Projeto
-
-```
-/
-├── index.html
-├── produtos.html
-├── carrinho.html
-├── contato.html
-├── sobre.html
-├── assets/
-│   ├── css/
-│   │   ├── reset.css
-│   │   ├── style.css
-│   │   └── responsive.css
-│   ├── js/
-│   │   ├── main.js
-│   │   └── interacoes.js
-│   └── images/
-└── README.md
-```
+- Catálogo de produtos com imagens e descrições
+- Carrinho de compras com gerenciamento de quantidade
+- Sistema de notificações para feedback ao usuário
+- Interface responsiva para diferentes dispositivos
+- Validação de formulários
+- Animações suaves para melhor experiência do usuário
 
 ## Tecnologias Utilizadas
 
 - HTML5
-- CSS3 (Flexbox e Grid)
+- CSS3 (com variáveis CSS e Flexbox/Grid)
 - JavaScript (ES6+)
-- Google Fonts
-- LocalStorage API
+- LocalStorage para persistência de dados
+- Módulos ES6 para organização do código
 
-## Funcionalidades
+## Estrutura do Projeto
+
+```
+urban-fit/
+├── assets/
+│   ├── css/
+│   │   ├── style.css
+│   │   ├── reset.css
+│   │   ├── responsive.css
+│   │   ├── carrinho.css
+│   │   ├── home.css
+│   │   └── produtos.css
+│   ├── js/
+│   │   ├── main.js
+│   │   ├── cart.js
+│   │   ├── products.js
+│   │   ├── ui.js
+│   │   ├── validation.js
+│   │   └── interacoes.js
+│   └── images/
+│       └── products/
+├── index.html
+├── produtos.html
+├── carrinho.html
+├── sobre.html
+├── contato.html
+└── README.md
+```
+
+## Instalação e Execução
+
+1. Clone o repositório:
+```bash
+git clone https://github.com/seu-usuario/urban-fit.git
+```
+
+2. Navegue até o diretório do projeto:
+```bash
+cd urban-fit
+```
+
+3. Abra o arquivo `index.html` em seu navegador ou use um servidor local.
+
+## Funcionalidades Implementadas
 
 ### Carrinho de Compras
-- Adicionar produtos
-- Remover produtos
-- Atualizar quantidade
-- Calcular total
-- Persistência de dados com localStorage
+- Adicionar produtos ao carrinho
+- Remover produtos do carrinho
+- Atualizar quantidade de produtos
+- Cálculo automático do total
+- Persistência dos dados no LocalStorage
 
-### Formulário de Contato
-- Validação de campos obrigatórios
-- Validação de formato de email
-- Feedback visual de erros
-- Mensagem de sucesso
+### Interface do Usuário
+- Menu responsivo
+- Animações suaves
+- Notificações de feedback
+- Contador de itens no carrinho
+- Mensagens para carrinho vazio
 
-### Responsividade
-- Menu hamburguer para mobile
-- Layout adaptativo
-- Imagens responsivas
-- Tipografia fluida
-
-## Como Usar
-
-1. Clone o repositório
-2. Abra o arquivo `index.html` em seu navegador
-3. Navegue pelas diferentes páginas do site
-4. Teste as funcionalidades do carrinho e formulário
-
-## Desenvolvimento
-
-O projeto foi desenvolvido seguindo as melhores práticas de desenvolvimento web:
-
-- Código semântico e acessível
-- CSS organizado com variáveis
-- JavaScript modular e reutilizável
-- Performance otimizada
-- Compatibilidade cross-browser
+### Validações
+- Validação de formulários
+- Validação de dados do carrinho
+- Validação de produtos
+- Tratamento de erros
 
 ## Contribuição
 
@@ -93,4 +98,6 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ## Contato
 
-URBAN FIT - contato@urbanfit.com
+- Email: vinisantosvsr80@gmail.com
+- Telefone: (42) 99122-4783
+- Endereço: Rua das Araucárias, 456, Centro, Curitiba - PR
