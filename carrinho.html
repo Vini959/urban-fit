@@ -63,84 +63,122 @@
                 </div>
 
                 <div class="empty-cart-message" style="display: none;">
-                    <p>Seu carrinho está vazio</p>
+                    <div class="empty-cart-icon">🛒</div>
+                    <h3>Seu carrinho está vazio</h3>
+                    <p>Que tal dar uma olhada em nossos produtos incríveis?</p>
+                    <p>Temos roupas fitness, equipamentos e muito mais para você!</p>
                     <a href="produtos.html" class="btn">Ver Produtos</a>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>URBAN FIT</h3>
-                    <p>Sua loja de produtos fitness</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Links Úteis</h3>
-                    <ul>
-                        <li><a href="sobre.html">Sobre Nós</a></li>
-                        <li><a href="contato.html">Contato</a></li>
-                        <li><a href="#">Política de Privacidade</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Contato</h3>
-                    <p>Endereço: Rua das Araucárias, 456, Centro, Curitiba - PR</p>
-                    <p>Email: vinisantosvsr80@gmail.com</p>
-                    <p>Tel: (42) 99122-4783</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 URBAN FIT. Todos os direitos reservados.</p>
-            </div>
-        </div>
-    </footer>
+    <div id="footer-placeholder"></div>
+    <script>
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      });
+    </script>
 
     <!-- JavaScript Files -->
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/interacoes.js"></script>
-    <script>
-        // Checkout function
-        function checkout() {
-            if (cart.length === 0) {
-                showNotification('Seu carrinho está vazio!');
-                return;
-            }
-            
-            // Simulate checkout process
-            showNotification('Compra finalizada com sucesso!');
-            cart = [];
-            saveCart();
-            updateCartUI();
+    <script type="module">
+        // Import all necessary functions
+        import { getCart, saveCart } from './assets/js/cart.js';
+        import { showNotification, renderCartUI, updateEmptyCartMessage } from './assets/js/ui.js';
+        import { handleUpdateQuantity, handleRemoveFromCart } from './assets/js/main.js';
+        import { initMenuToggle, initButtonHover } from './assets/js/interacoes.js';
+
+        // Initialize EmailJS
+        (function() {
+            emailjs.init("5uI8a2dVv8yiAXc1m"); // Substitua com sua chave pública do EmailJS
+        })();
+
+        // Format order details for email
+        function formatOrderDetails(cart) {
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const formattedTotal = new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            }).format(total);
+
+            const itemsList = cart.map(item => `
+                ${item.name}
+                Quantidade: ${item.quantity}
+                Preço unitário: ${new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                }).format(item.price)}
+                Subtotal: ${new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                }).format(item.price * item.quantity)}
+            `).join('\n\n');
+
+            return `
+                Novo Pedido Recebido!
+
+                Itens do Pedido:
+                ${itemsList}
+
+                Total do Pedido: ${formattedTotal}
+
+                Data do Pedido: ${new Date().toLocaleString('pt-BR')}
+            `;
         }
 
-        // Update empty cart message visibility
-        const updateEmptyCartMessage = () => {
-            const emptyMessage = document.querySelector('.empty-cart-message');
-            const cartContainer = document.querySelector('.cart-container');
-            
+        // Checkout function
+        async function checkout() {
+            const cart = getCart();
             if (cart.length === 0) {
-                emptyMessage.style.display = 'block';
-                cartContainer.style.display = 'none';
-            } else {
-                emptyMessage.style.display = 'none';
-                cartContainer.style.display = 'block';
+                showNotification('Seu carrinho está vazio!', 'error');
+                return;
             }
-        };
 
-        // Override updateCartUI to include empty cart message
-        const originalUpdateCartUI = updateCartUI;
-        updateCartUI = () => {
-            originalUpdateCartUI();
-            updateEmptyCartMessage();
-        };
+            try {
+                // Prepare email parameters
+                const templateParams = {
+                    to_email: 'vinisantosvsr80@gmail.com',
+                    from_name: 'URBAN FIT - Sistema de Pedidos',
+                    subject: 'Novo Pedido Recebido',
+                    message: formatOrderDetails(cart)
+                };
+
+                // Send email
+                await emailjs.send(
+                    'service_ny7nsoq', // Substitua com seu Service ID do EmailJS
+                    'template_1p0ny4s', // Substitua com seu Template ID do EmailJS
+                    templateParams
+                );
+
+                // Clear cart and show success message
+                saveCart([]);
+                renderCartUI(handleUpdateQuantity, handleRemoveFromCart);
+                updateEmptyCartMessage();
+                showNotification('Pedido finalizado com sucesso! Um email foi enviado com os detalhes.', 'success');
+            } catch (error) {
+                console.error('Erro ao enviar email:', error);
+                showNotification('Erro ao finalizar pedido. Por favor, tente novamente.', 'error');
+            }
+        }
 
         // Initialize cart page
-        document.addEventListener('DOMContentLoaded', () => {
-            updateCartUI();
-        });
+        function initCartPage() {
+            renderCartUI(handleUpdateQuantity, handleRemoveFromCart);
+            updateEmptyCartMessage();
+            initMenuToggle();
+            initButtonHover();
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initCartPage);
+
+        // Make checkout function available globally
+        window.checkout = checkout;
     </script>
+
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </body>
 </html> 
