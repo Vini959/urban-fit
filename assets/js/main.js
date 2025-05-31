@@ -35,42 +35,42 @@ const products = [
         name: 'Garrafa Térmica Fitness',
         description: 'Garrafa térmica para manter sua bebida gelada durante o treino',
         price: 49.90,
-        image: 'https://cdn.pixabay.com/photo/2016/11/29/09/32/bottle-1869592_1280.jpg'
+        image: 'https://http2.mlstatic.com/D_NQ_NP_805585-MLB78439034520_082024-O-garrafa-termica-800ml-inox-fitness-academia-hiddra.webp'
     },
     {
         id: 6,
         name: 'Faixa Elástica de Exercício',
         description: 'Faixa elástica ideal para treinos de resistência e alongamento',
         price: 29.90,
-        image: 'https://cdn.pixabay.com/photo/2017/01/20/15/06/people-1993646_1280.jpg'
+        image: 'https://images.tcdn.com.br/img/img_prod/1146605/90_kit_5_faixa_elastica_exercicio_fisico_crossfit_funcional_yoga_pilates_musculacao_4875_1_55a688e7f537a60d3088ec4c65c7570c.jpg'
     },
     {
         id: 7,
         name: 'Luvas de Academia',
         description: 'Luvas para proteger as mãos durante o treino de musculação',
         price: 39.90,
-        image: 'https://cdn.pixabay.com/photo/2016/11/29/09/32/gloves-1869593_1280.jpg'
+        image: 'https://17889.cdn.simplo7.net/static/17889/sku/esportes-luvas-protetor-de-palma-realtex-0705-mini-luva-para-academia-1687540688360.png'
     },
     {
         id: 8,
         name: 'Corda de Pular Profissional',
         description: 'Corda de pular ajustável para treinos de cardio',
         price: 34.90,
-        image: 'https://cdn.pixabay.com/photo/2017/08/07/00/53/jump-rope-2597663_1280.jpg'
+        image: 'https://images.tcdn.com.br/img/img_prod/751575/corda_de_pular_453_1_753abf32029230e46076463ea57765d7.jpg'
     },
     {
         id: 9,
         name: 'Mochila Esportiva',
         description: 'Mochila resistente e espaçosa para levar seus itens de treino',
         price: 99.90,
-        image: 'https://cdn.pixabay.com/photo/2016/11/29/09/32/backpack-1869567_1280.jpg'
+        image: 'https://decathlonpro.vtexassets.com/arquivos/ids/145692783/mochila-esportiva-60l-combate-preta-linha-9001.jpg?v=638548535977300000'
     },
     {
         id: 10,
         name: 'Suplemento Whey Protein',
         description: 'Whey protein para auxiliar na recuperação muscular',
         price: 159.90,
-        image: 'https://cdn.pixabay.com/photo/2017/06/02/18/24/whey-2366713_1280.jpg'
+        image: 'https://www.gsuplementos.com.br/upload/produto/imagem/top-whey-protein-concentrado-1kg-growth-supplements-19.jpg'
     }
 ];
 
@@ -204,10 +204,12 @@ const initProductsGrid = () => {
             <div class="product-info">
                 <h3>${product.name}</h3>
                 <p>${product.description}</p>
-                <p class="product-price">${formatPrice(product.price)}</p>
-                <button class="btn" onclick="addToCart(${product.id})">
-                    Adicionar ao Carrinho
-                </button>
+                <div class="product-info-bottom">
+                    <p class="product-price">${formatPrice(product.price)}</p>
+                    <button class="btn" onclick="addToCart(${product.id})">
+                        Adicionar ao Carrinho
+                    </button>
+                </div>
             </div>
         </div>
     `).join('');
