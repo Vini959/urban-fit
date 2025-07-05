@@ -1,5 +1,3 @@
-// Main JavaScript functionality
-
 import { products, getProductById } from './products.js';
 import {
     addToCart,
@@ -15,7 +13,6 @@ import {
     initUI
 } from './ui.js';
 
-// Add product to cart and update UI
 export const handleAddToCart = (productId) => {
     if (typeof productId !== 'number' || isNaN(productId)) {
         console.error('Invalid product ID');
@@ -36,7 +33,6 @@ export const handleAddToCart = (productId) => {
     showNotification('Produto adicionado ao carrinho!', 'success');
 };
 
-// Remove product from cart and update UI
 export const handleRemoveFromCart = (productId) => {
     if (typeof productId !== 'number' || isNaN(productId)) {
         console.error('Invalid product ID');
@@ -50,7 +46,6 @@ export const handleRemoveFromCart = (productId) => {
     showNotification('Produto removido do carrinho!', 'info');
 };
 
-// Update product quantity and update UI
 export const handleUpdateQuantity = (productId, quantity) => {
     if (typeof productId !== 'number' || isNaN(productId) || 
         typeof quantity !== 'number' || isNaN(quantity)) {
@@ -64,7 +59,6 @@ export const handleUpdateQuantity = (productId, quantity) => {
     updateEmptyCartMessage();
 };
 
-// Initialize page
 function initPage() {
     try {
         initUI(handleAddToCart, handleUpdateQuantity, handleRemoveFromCart);
@@ -74,5 +68,4 @@ function initPage() {
     }
 }
 
-// Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', initPage);

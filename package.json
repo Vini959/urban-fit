@@ -1,0 +1,24 @@
+{
+  "name": "urban-fit",
+  "version": "1.0.0",
+  "description": "URBAN FIT é uma loja virtual especializada em produtos fitness, oferecendo uma ampla variedade de itens para treino e bem-estar.",
+  "homepage": "https://github.com/Vini959/urban-fit#readme",
+  "bugs": {
+    "url": "https://github.com/Vini959/urban-fit/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vini959/urban-fit.git"
+  },
+  "license": "ISC",
+  "author": "Vini959",
+  "type": "commonjs",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx http-server -p 3000"
+  }
+}

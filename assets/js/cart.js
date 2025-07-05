@@ -1,9 +1,5 @@
-// cart.js
-// Cart logic and utility functions
-
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-// Validate cart data structure
 function validateCartItem(item) {
     return item && 
            typeof item.id === 'number' && 
@@ -14,7 +10,7 @@ function validateCartItem(item) {
 }
 
 export function getCart() {
-    return [...cart]; // Return a copy to prevent direct modifications
+    return [...cart];
 }
 
 export function addToCart(product) {
@@ -54,7 +50,7 @@ export function updateQuantity(productId, quantity) {
 
     const item = cart.find(item => item.id === productId);
     if (item) {
-        item.quantity = Math.max(1, Math.floor(quantity)); // Ensure positive integer
+        item.quantity = Math.max(1, Math.floor(quantity));
         saveCart();
     }
 }
@@ -65,7 +61,6 @@ export function saveCart(newCart) {
             console.error('Invalid cart data');
             return;
         }
-        // Validate all items in the new cart
         if (!newCart.every(validateCartItem)) {
             console.error('Invalid cart items');
             return;
@@ -90,7 +85,6 @@ export function setCart(newCart) {
         console.error('Invalid cart data');
         return;
     }
-    // Validate all items in the new cart
     if (!newCart.every(validateCartItem)) {
         console.error('Invalid cart items');
         return;
