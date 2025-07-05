@@ -11,12 +11,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
     <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
-    <link rel="stylesheet" href="assets/css/carrinho.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
 </head>
 <body>
     <header class="header">
@@ -46,16 +46,11 @@
                 <h2>Seu Carrinho</h2>
                 
                 <div class="cart-container">
-                    <div class="cart-items">
-                    </div>
+                    <div class="cart-items"></div>
                     
                     <div class="cart-summary">
-                        <div class="cart-total">
-                            Total: R$ 0,00
-                        </div>
-                        <button class="btn checkout-btn" onclick="checkout()">
-                            Finalizar Compra
-                        </button>
+                        <div class="cart-total">Total: R$ 0,00</div>
+                        <button class="btn checkout-btn" onclick="checkout()">Finalizar Compra</button>
                     </div>
                 </div>
 
@@ -71,25 +66,24 @@
     </main>
 
     <div id="footer-placeholder"></div>
+
     <script>
-    fetch('footer.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('footer-placeholder').innerHTML = data;
-      });
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-placeholder').innerHTML = data;
+            });
     </script>
 
     <script type="module">
-        import { getCart, saveCart } from './assets/js/cart.js';
+        import { getCart, setCart } from './assets/js/cart.js';
         import { showNotification, renderCartUI, updateEmptyCartMessage } from './assets/js/ui.js';
         import { handleUpdateQuantity, handleRemoveFromCart } from './assets/js/main.js';
         import { initMenuToggle, initButtonHover } from './assets/js/interacoes.js';
 
-        (function() {
-            emailjs.init("5uI8a2dVv8yiAXc1m");
-        })();
+        emailjs.init("5uI8a2dVv8yiAXc1m");
 
-        function formatOrderDetails(cart) {
+        const formatOrderDetails = (cart) => {
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const formattedTotal = new Intl.NumberFormat('pt-BR', {
                 style: 'currency',
@@ -119,9 +113,9 @@
 
                 Data do Pedido: ${new Date().toLocaleString('pt-BR')}
             `;
-        }
+        };
 
-        async function checkout() {
+        const checkout = async () => {
             const cart = getCart();
             if (cart.length === 0) {
                 showNotification('Seu carrinho está vazio!', 'error');
@@ -136,13 +130,9 @@
                     message: formatOrderDetails(cart)
                 };
 
-                await emailjs.send(
-                    'service_ny7nsoq',
-                    'template_1p0ny4s',
-                    templateParams
-                );
+                await emailjs.send('service_ny7nsoq', 'template_1p0ny4s', templateParams);
 
-                saveCart([]);
+                setCart([]);
                 renderCartUI(handleUpdateQuantity, handleRemoveFromCart);
                 updateEmptyCartMessage();
                 showNotification('Pedido finalizado com sucesso! Um email foi enviado com os detalhes.', 'success');
@@ -150,17 +140,16 @@
                 console.error('Erro ao enviar email:', error);
                 showNotification('Erro ao finalizar pedido. Por favor, tente novamente.', 'error');
             }
-        }
+        };
 
-        function initCartPage() {
+        const initCartPage = () => {
             renderCartUI(handleUpdateQuantity, handleRemoveFromCart);
             updateEmptyCartMessage();
             initMenuToggle();
             initButtonHover();
-        }
+        };
 
         document.addEventListener('DOMContentLoaded', initCartPage);
-
         window.checkout = checkout;
     </script>
 
