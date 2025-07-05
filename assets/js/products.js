@@ -1,7 +1,3 @@
-// products.js
-// Product data and utility functions
-
-// Validate product data structure
 function validateProduct(product) {
     return product &&
            typeof product.id === 'number' &&
@@ -12,7 +8,6 @@ function validateProduct(product) {
            product.price > 0;
 }
 
-// Product data
 export const products = [
     {
         id: 1,
@@ -84,9 +79,8 @@ export const products = [
         price: 159.90,
         image: 'assets/images/products/whey-protein.jpg'
     }
-].filter(validateProduct); // Filter out any invalid products
+].filter(validateProduct);
 
-// Get product by ID
 export function getProductById(id) {
     if (typeof id !== 'number' || isNaN(id)) {
         console.error('Invalid product ID');
@@ -95,7 +89,6 @@ export function getProductById(id) {
     return products.find(p => p.id === id) || null;
 }
 
-// Get featured products (first 4 products)
 export function getFeaturedProducts() {
     return products.slice(0, 4);
 } 

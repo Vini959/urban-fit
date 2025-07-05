@@ -8,16 +8,15 @@
     <meta name="author" content="URBAN FIT">
     <title>URBAN FIT - Carrinho</title>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     
-    <!-- CSS Files -->
     <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
     <link rel="stylesheet" href="assets/css/carrinho.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
     <header class="header">
@@ -27,9 +26,8 @@
             </div>
             <nav class="nav">
                 <button class="menu-toggle" aria-label="Toggle Menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <i class="fa-solid fa-bars"></i>
+                    <i class="fa-solid fa-xmark" style="display:none"></i>
                 </button>
                 <ul class="nav-list">
                     <li><a href="index.html">Home</a></li>
@@ -49,7 +47,6 @@
                 
                 <div class="cart-container">
                     <div class="cart-items">
-                        <!-- Cart items will be dynamically loaded here -->
                     </div>
                     
                     <div class="cart-summary">
@@ -82,20 +79,16 @@
       });
     </script>
 
-    <!-- JavaScript Files -->
     <script type="module">
-        // Import all necessary functions
         import { getCart, saveCart } from './assets/js/cart.js';
         import { showNotification, renderCartUI, updateEmptyCartMessage } from './assets/js/ui.js';
         import { handleUpdateQuantity, handleRemoveFromCart } from './assets/js/main.js';
         import { initMenuToggle, initButtonHover } from './assets/js/interacoes.js';
 
-        // Initialize EmailJS
         (function() {
-            emailjs.init("5uI8a2dVv8yiAXc1m"); // Substitua com sua chave pública do EmailJS
+            emailjs.init("5uI8a2dVv8yiAXc1m");
         })();
 
-        // Format order details for email
         function formatOrderDetails(cart) {
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const formattedTotal = new Intl.NumberFormat('pt-BR', {
@@ -128,7 +121,6 @@
             `;
         }
 
-        // Checkout function
         async function checkout() {
             const cart = getCart();
             if (cart.length === 0) {
@@ -137,7 +129,6 @@
             }
 
             try {
-                // Prepare email parameters
                 const templateParams = {
                     to_email: 'vinisantosvsr80@gmail.com',
                     from_name: 'URBAN FIT - Sistema de Pedidos',
@@ -145,14 +136,12 @@
                     message: formatOrderDetails(cart)
                 };
 
-                // Send email
                 await emailjs.send(
-                    'service_ny7nsoq', // Substitua com seu Service ID do EmailJS
-                    'template_1p0ny4s', // Substitua com seu Template ID do EmailJS
+                    'service_ny7nsoq',
+                    'template_1p0ny4s',
                     templateParams
                 );
 
-                // Clear cart and show success message
                 saveCart([]);
                 renderCartUI(handleUpdateQuantity, handleRemoveFromCart);
                 updateEmptyCartMessage();
@@ -163,7 +152,6 @@
             }
         }
 
-        // Initialize cart page
         function initCartPage() {
             renderCartUI(handleUpdateQuantity, handleRemoveFromCart);
             updateEmptyCartMessage();
@@ -171,14 +159,11 @@
             initButtonHover();
         }
 
-        // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', initCartPage);
 
-        // Make checkout function available globally
         window.checkout = checkout;
     </script>
 
-    <!-- EmailJS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </body>
 </html> 

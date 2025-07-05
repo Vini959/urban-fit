@@ -1,13 +1,8 @@
-// validation.js
-// Form validation and utility functions
-
-// Email validation
 export function validateEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
 }
 
-// Form validation
 export function validateForm(form) {
     const inputs = form.querySelectorAll('input[required], textarea[required]');
     let isValid = true;
@@ -27,7 +22,6 @@ export function validateForm(form) {
     return isValid;
 }
 
-// Show error message
 export function showError(input, message) {
     const formGroup = input.closest('.form-group');
     const error = formGroup.querySelector('.error-message') || document.createElement('div');
@@ -42,7 +36,6 @@ export function showError(input, message) {
     input.classList.add('error');
 }
 
-// Clear error message
 export function clearError(input) {
     const formGroup = input.closest('.form-group');
     const error = formGroup.querySelector('.error-message');

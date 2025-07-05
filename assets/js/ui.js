@@ -1,10 +1,6 @@
-// ui.js
-// UI rendering and notification functions
-
 import { products } from './products.js';
 import { getCart, calculateTotal } from './cart.js';
 
-// Format price to BRL
 export function formatPrice(price) {
     if (typeof price !== 'number' || isNaN(price)) {
         console.error('Invalid price value:', price);
@@ -16,7 +12,6 @@ export function formatPrice(price) {
     }).format(price);
 }
 
-// Render products grid
 export function renderProductsGrid(onAddToCart) {
     const productsGrid = document.querySelector('.products-grid');
     if (!productsGrid) return;
@@ -42,7 +37,6 @@ export function renderProductsGrid(onAddToCart) {
         </div>
     `).join('');
 
-    // Add event listeners to buttons
     productsGrid.querySelectorAll('.add-to-cart-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -54,7 +48,7 @@ export function renderProductsGrid(onAddToCart) {
     });
 }
 
-// Update cart counter
+
 export function updateCartCounter() {
     const cart = getCart();
     const counters = document.querySelectorAll('.cart-counter');
@@ -73,7 +67,6 @@ export function updateCartCounter() {
     });
 }
 
-// Show notification
 export function showNotification(message, type = 'info') {
     if (!message) return;
 
@@ -81,12 +74,9 @@ export function showNotification(message, type = 'info') {
     notification.className = `notification ${type}`;
     notification.textContent = message;
     
-    // Remove any existing notifications
     document.querySelectorAll('.notification').forEach(n => n.remove());
-    
     document.body.appendChild(notification);
-    
-    // Add animation class
+
     requestAnimationFrame(() => {
         notification.classList.add('show');
     });
@@ -97,7 +87,6 @@ export function showNotification(message, type = 'info') {
     }, 3000);
 }
 
-// Render cart UI
 export function renderCartUI(onUpdateQuantity, onRemoveFromCart) {
     const cartContainer = document.querySelector('.cart-items');
     if (!cartContainer) return;
@@ -106,8 +95,8 @@ export function renderCartUI(onUpdateQuantity, onRemoveFromCart) {
     const total = calculateTotal();
 
     if (!Array.isArray(cart) || cart.length === 0) {
-        cartContainer.innerHTML = ''; // Clear the container instead of adding a message
-        updateEmptyCartMessage(); // This will show the proper empty cart message
+        cartContainer.innerHTML = '';
+        updateEmptyCartMessage();
         return;
     }
 
@@ -128,7 +117,6 @@ export function renderCartUI(onUpdateQuantity, onRemoveFromCart) {
         </div>
     `).join('');
 
-    // Add event listeners to buttons
     cartContainer.querySelectorAll('.decrease-qty, .increase-qty').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -156,7 +144,6 @@ export function renderCartUI(onUpdateQuantity, onRemoveFromCart) {
     }
 }
 
-// Show or hide empty cart message
 export function updateEmptyCartMessage() {
     const cart = getCart();
     const emptyMessage = document.querySelector('.empty-cart-message');
@@ -169,7 +156,6 @@ export function updateEmptyCartMessage() {
     cartContainer.style.display = isEmpty ? 'none' : 'block';
 }
 
-// Initialize all UI components
 export function initUI(handleAddToCart, handleUpdateQuantity, handleRemoveFromCart) {
     if (typeof handleAddToCart !== 'function' || 
         typeof handleUpdateQuantity !== 'function' || 

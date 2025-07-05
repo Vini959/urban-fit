@@ -1,29 +1,39 @@
-// User interactions and UI functionality
-
 import { validateForm } from './validation.js';
 
-// Menu toggle functionality
 export function initMenuToggle() {
     const menuToggle = document.querySelector('.menu-toggle');
     const navList = document.querySelector('.nav-list');
+    const iconBars = menuToggle ? menuToggle.querySelector('.fa-bars') : null;
+    const iconX = menuToggle ? menuToggle.querySelector('.fa-xmark') : null;
     
     if (!menuToggle || !navList) return;
+
+    function updateIcons() {
+        if (menuToggle.classList.contains('active')) {
+            if (iconBars) iconBars.style.display = 'none';
+            if (iconX) iconX.style.display = 'inline';
+        } else {
+            if (iconBars) iconBars.style.display = 'inline';
+            if (iconX) iconX.style.display = 'none';
+        }
+    }
 
     menuToggle.addEventListener('click', () => {
         menuToggle.classList.toggle('active');
         navList.classList.toggle('active');
+        updateIcons();
     });
 
-    // Close menu when clicking outside
     document.addEventListener('click', (e) => {
         if (!menuToggle.contains(e.target) && !navList.contains(e.target)) {
             menuToggle.classList.remove('active');
             navList.classList.remove('active');
+            updateIcons();
         }
     });
+    updateIcons();
 }
 
-// Contact form submission
 export function initContactForm() {
     const form = document.querySelector('.contact-form');
     if (!form) return;
@@ -35,7 +45,6 @@ export function initContactForm() {
     });
 }
 
-// Smooth scroll for anchor links
 export function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', (e) => {
@@ -52,9 +61,8 @@ export function initSmoothScroll() {
     });
 }
 
-// Add hover effect to buttons
 export function initButtonHover() {
-    const buttons = document.querySelectorAll('.btn');
+    const buttons = document.querySelectorAll('.btn:not(.add-to-cart-btn)');
     
     buttons.forEach(button => {
         button.addEventListener('mouseenter', () => {
