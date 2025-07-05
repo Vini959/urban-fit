@@ -1,22 +1,18 @@
 import { products } from './products.js';
 import { getCart, calculateTotal } from './cart.js';
 
-export function formatPrice(price) {
-    if (typeof price !== 'number' || isNaN(price)) {
-        console.error('Invalid price value:', price);
-        return 'R$ 0,00';
-    }
+export const formatPrice = (price) => {
     return new Intl.NumberFormat('pt-BR', {
         style: 'currency',
         currency: 'BRL'
     }).format(price);
-}
+};
 
-export function renderProductsGrid(onAddToCart) {
+export const renderProductsGrid = (onAddToCart) => {
     const productsGrid = document.querySelector('.products-grid');
     if (!productsGrid) return;
 
-    if (!Array.isArray(products) || products.length === 0) {
+    if (!products.length) {
         productsGrid.innerHTML = '<p class="no-products">Nenhum produto disponível no momento.</p>';
         return;
     }
@@ -27,8 +23,8 @@ export function renderProductsGrid(onAddToCart) {
             <div class="product-info">
                 <h3>${product.name}</h3>
                 <p>${product.description}</p>
-                <p class="product-price">${formatPrice(product.price)}</p>
                 <div class="product-info-bottom">
+                    <p class="product-price">${formatPrice(product.price)}</p>
                     <button class="btn add-to-cart-btn" data-id="${product.id}">
                         Adicionar ao Carrinho
                     </button>
@@ -41,33 +37,24 @@ export function renderProductsGrid(onAddToCart) {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             const id = Number(btn.getAttribute('data-id'));
-            if (!isNaN(id)) {
-                onAddToCart(id);
-            }
+            onAddToCart(id);
         });
     });
-}
+};
 
-
-export function updateCartCounter() {
+export const updateCartCounter = () => {
     const cart = getCart();
     const counters = document.querySelectorAll('.cart-counter');
-    if (!counters.length) return;
-
-    const totalItems = cart.reduce((total, item) => {
-        if (item && typeof item.quantity === 'number') {
-            return total + item.quantity;
-        }
-        return total;
-    }, 0);
+    
+    const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
     
     counters.forEach(counter => {
         counter.textContent = totalItems;
         counter.classList.toggle('active', totalItems > 0);
     });
-}
+};
 
-export function showNotification(message, type = 'info') {
+export const showNotification = (message, type = 'info') => {
     if (!message) return;
 
     const notification = document.createElement('div');
@@ -85,16 +72,16 @@ export function showNotification(message, type = 'info') {
         notification.classList.remove('show');
         setTimeout(() => notification.remove(), 300);
     }, 3000);
-}
+};
 
-export function renderCartUI(onUpdateQuantity, onRemoveFromCart) {
+export const renderCartUI = (onUpdateQuantity, onRemoveFromCart) => {
     const cartContainer = document.querySelector('.cart-items');
     if (!cartContainer) return;
 
     const cart = getCart();
     const total = calculateTotal();
 
-    if (!Array.isArray(cart) || cart.length === 0) {
+    if (!cart.length) {
         cartContainer.innerHTML = '';
         updateEmptyCartMessage();
         return;
@@ -122,9 +109,7 @@ export function renderCartUI(onUpdateQuantity, onRemoveFromCart) {
             e.preventDefault();
             const id = Number(btn.getAttribute('data-id'));
             const qty = Number(btn.getAttribute('data-qty'));
-            if (!isNaN(id) && !isNaN(qty)) {
-                onUpdateQuantity(id, qty);
-            }
+            onUpdateQuantity(id, qty);
         });
     });
 
@@ -132,9 +117,7 @@ export function renderCartUI(onUpdateQuantity, onRemoveFromCart) {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             const id = Number(btn.getAttribute('data-id'));
-            if (!isNaN(id)) {
-                onRemoveFromCart(id);
-            }
+            onRemoveFromCart(id);
         });
     });
 
@@ -142,30 +125,23 @@ export function renderCartUI(onUpdateQuantity, onRemoveFromCart) {
     if (totalElement) {
         totalElement.textContent = `Total: ${formatPrice(total)}`;
     }
-}
+};
 
-export function updateEmptyCartMessage() {
+export const updateEmptyCartMessage = () => {
     const cart = getCart();
     const emptyMessage = document.querySelector('.empty-cart-message');
     const cartContainer = document.querySelector('.cart-container');
     
     if (!emptyMessage || !cartContainer) return;
     
-    const isEmpty = !Array.isArray(cart) || cart.length === 0;
+    const isEmpty = !cart.length;
     emptyMessage.style.display = isEmpty ? 'block' : 'none';
     cartContainer.style.display = isEmpty ? 'none' : 'block';
-}
+};
 
-export function initUI(handleAddToCart, handleUpdateQuantity, handleRemoveFromCart) {
-    if (typeof handleAddToCart !== 'function' || 
-        typeof handleUpdateQuantity !== 'function' || 
-        typeof handleRemoveFromCart !== 'function') {
-        console.error('Invalid handler functions provided to initUI');
-        return;
-    }
-
+export const initUI = (handleAddToCart, handleUpdateQuantity, handleRemoveFromCart) => {
     renderProductsGrid(handleAddToCart);
     renderCartUI(handleUpdateQuantity, handleRemoveFromCart);
     updateCartCounter();
     updateEmptyCartMessage();
-} 
+}; 

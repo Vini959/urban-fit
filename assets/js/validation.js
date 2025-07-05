@@ -1,17 +1,19 @@
-export function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-}
+export const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+};
 
-export function validateForm(form) {
-    const inputs = form.querySelectorAll('input[required], textarea[required]');
+export const validateForm = (form) => {
+    const requiredInputs = form.querySelectorAll('input[required], textarea[required]');
     let isValid = true;
 
-    inputs.forEach(input => {
-        if (!input.value.trim()) {
+    requiredInputs.forEach(input => {
+        const value = input.value.trim();
+        
+        if (!value) {
             showError(input, 'Este campo é obrigatório');
             isValid = false;
-        } else if (input.type === 'email' && !validateEmail(input.value)) {
+        } else if (input.type === 'email' && !validateEmail(value)) {
             showError(input, 'Email inválido');
             isValid = false;
         } else {
@@ -20,29 +22,29 @@ export function validateForm(form) {
     });
 
     return isValid;
-}
+};
 
-export function showError(input, message) {
+export const showError = (input, message) => {
     const formGroup = input.closest('.form-group');
-    const error = formGroup.querySelector('.error-message') || document.createElement('div');
+    let errorElement = formGroup.querySelector('.error-message');
     
-    error.className = 'error-message';
-    error.textContent = message;
-    
-    if (!formGroup.querySelector('.error-message')) {
-        formGroup.appendChild(error);
+    if (!errorElement) {
+        errorElement = document.createElement('div');
+        errorElement.className = 'error-message';
+        formGroup.appendChild(errorElement);
     }
     
+    errorElement.textContent = message;
     input.classList.add('error');
-}
+};
 
-export function clearError(input) {
+export const clearError = (input) => {
     const formGroup = input.closest('.form-group');
-    const error = formGroup.querySelector('.error-message');
+    const errorElement = formGroup.querySelector('.error-message');
     
-    if (error) {
-        error.remove();
+    if (errorElement) {
+        errorElement.remove();
     }
     
     input.classList.remove('error');
-} 
+}; 
